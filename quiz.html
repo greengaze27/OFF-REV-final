@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OFF-REV | Quiz Mode</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            📝
+        </div>
+
+        <h1>Quiz Mode</h1>
+
+        <p class="subtitle" id="quizCounter">
+            Question 1
+        </p>
+
+        <div class="welcome-card">
+
+            <h2 id="quizQuestion">
+                Loading question...
+            </h2>
+
+            <div id="choices"></div>
+
+            <p id="feedback"></p>
+
+            <button id="nextButton" onclick="nextQuestion()" style="display:none;">
+                Next →
+            </button>
+
+            <br>
+
+            <button onclick="location.href='flashcard.html'">
+                ← Back to Flashcards
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="quiz.js"></script>
+
+</body>
+
+</html>

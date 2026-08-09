@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OFF-REV | Flashcards</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            📚
+        </div>
+
+        <h1>Flashcard Mode</h1>
+
+        <p class="subtitle" id="counter">
+    Card 1 of 25
+</p>
+
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+        <div class="welcome-card">
+
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+
+                <div class="card-inner" id="cardInner">
+
+                    <div class="card-front">
+                        <span>QUESTION</span>
+                        <h2 id="question">
+                            Loading...
+                        </h2>
+                        <p>👆 Click the card to reveal the answer</p>
+                    </div>
+
+                    <div class="card-back">
+                        <span>ANSWER</span>
+                        <h2 id="answer">
+                            Loading...
+                        </h2>
+                        <p>👆 Click to return to the question</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <button onclick="previousCard()">
+    ← Previous
+</button>
+
+<button onclick="nextCard()">
+    Next →
+</button>
+
+<button onclick="location.href='quiz.html'">
+    📝 Start Quiz
+</button>
+
+            <br><br>
+
+            <button onclick="location.href='upload.html'">
+                📂 Upload Another Reviewer
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        let flashcards = JSON.parse(
+            localStorage.getItem("flashcards")
+        );
+
+        let currentCard = 0;
+
+        if (!flashcards || flashcards.length === 0) {
+
+            alert("No flashcards found. Please upload a reviewer first.");
+
+            window.location.href = "upload.html";
+
+        }
+
+        function loadCard() {
+
+            document.getElementById("question").textContent =
+                flashcards[currentCard].question;
+
+            document.getElementById("answer").textContent =
+                flashcards[currentCard].answer;
+
+            document.getElementById("counter").textContent =
+                "Card " + (currentCard + 1) +
+                " of " + flashcards.length;
+
+                const progress =
+    ((currentCard + 1) / flashcards.length) * 100;
+
+document.getElementById("progressBar").style.width =
+    progress + "%";
+
+            document.getElementById("cardInner").classList.remove("flipped");
+        }
+
+        function flipCard() {
+
+            document.getElementById("cardInner")
+                .classList.toggle("flipped");
+
+        }
+
+        function nextCard() {
+
+            currentCard++;
+
+            if (currentCard >= flashcards.length) {
+                currentCard = 0;
+            }
+
+            loadCard();
+
+        }
+
+        loadCard();
+
+        function previousCard() {
+
+    currentCard--;
+
+    if (currentCard < 0) {
+        currentCard = flashcards.length - 1;
+    }
+
+    loadCard();
+}
+
+    </script>
+
+</body>
+
+</html>

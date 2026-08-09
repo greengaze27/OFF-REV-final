@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OFF-REV | Upload Reviewer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            📂
+        </div>
+
+        <h1>Upload Reviewer</h1>
+
+        <p class="subtitle">
+            Add your reviewer file to OFF-REV
+        </p>
+
+        <div class="welcome-card">
+
+            <h2>Select a Reviewer File</h2>
+
+            <p>
+                Choose a <strong>.txt</strong> file containing your
+                questions and answers.
+            </p>
+
+            <input
+                type="file"
+                id="reviewerFile"
+                accept=".txt"
+            >
+
+            <br><br>
+
+            <button onclick="uploadFile()">
+                📚 Generate Reviewer
+            </button>
+
+            <br><br>
+
+            <button onclick="location.href='index.html'">
+                ← Back
+            </button>
+
+            <p id="message"></p>
+
+        </div>
+
+    </div>
+
+    <script>
+
+function uploadFile() {
+
+    const fileInput = document.getElementById("reviewerFile");
+    const message = document.getElementById("message");
+
+    if (fileInput.files.length === 0) {
+        message.textContent =
+            "⚠️ Please select a reviewer file first.";
+        return;
+    }
+
+    const file = fileInput.files[0];
+
+    if (!file.name.toLowerCase().endsWith(".txt")) {
+        message.textContent =
+            "❌ Please select a .txt file.";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+
+        const text = event.target.result;
+
+        const lines = text.split(/\r?\n/);
+
+        const flashcards = [];
+
+        let topic = "";
+        let explanation = "";
+
+        for (let i = 0; i < lines.length; i++) {
+
+            const line = lines[i].trim();
+
+            
+            if (line === "") {
+                continue;
+            }
+
+            
+            if (topic === "") {
+
+                topic = line;
+
+            } else {
+
+                
+                explanation = line;
+
+                flashcards.push({
+    topic: topic,
+    question: "What is " + topic + "?",
+    answer: explanation
+});
+
+                
+                topic = "";
+                explanation = "";
+            }
+        }
+
+        if (flashcards.length === 0) {
+
+            message.textContent =
+                "❌ No valid study material found.";
+
+            return;
+        }
+
+        localStorage.setItem(
+            "flashcards",
+            JSON.stringify(flashcards)
+        );
+
+        message.textContent =
+            "✅ " +
+            flashcards.length +
+            " study topics loaded successfully!";
+
+        setTimeout(function() {
+
+            window.location.href = "flashcard.html";
+
+        }, 1000);
+    };
+
+    reader.readAsText(file);
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OFF-REV | Quiz Result</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        🏆
+    </div>
+
+    <h1>Quiz Complete!</h1>
+
+    <p class="subtitle">
+        Here's your quiz result
+    </p>
+
+    <div class="welcome-card">
+
+        <h2>Your Score</h2>
+
+        <h1 id="scoreDisplay">
+            0 / 0
+        </h1>
+
+        <p id="percentage">
+            0%
+        </p>
+
+        <p id="message">
+            Keep studying!
+        </p>
+
+        <br>
+
+        <button onclick="location.href='quiz.html'">
+            🔄 Try Again
+        </button>
+
+        <br>
+
+        <button onclick="location.href='flashcard.html'">
+            📚 Back to Flashcards
+        </button>
+
+        <br>
+
+        <button onclick="location.href='index.html'">
+            🏠 Home
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const score =
+    Number(localStorage.getItem("quizScore")) || 0;
+
+const total =
+    Number(localStorage.getItem("quizTotal")) || 0;
+
+let percentage = 0;
+
+if (total > 0) {
+
+    percentage =
+        Math.round((score / total) * 100);
+
+}
+
+document.getElementById("scoreDisplay")
+    .textContent =
+    score + " / " + total;
+
+
+document.getElementById("percentage")
+    .textContent =
+    percentage + "%";
+
+
+
+const message =
+    document.getElementById("message");
+
+
+if (percentage === 100) {
+
+    message.textContent =
+        "🏆 Perfect Score! Excellent!";
+
+}
+
+else if (percentage >= 80) {
+
+    message.textContent =
+        "🎉 Great job!";
+
+}
+
+else if (percentage >= 60) {
+
+    message.textContent =
+        "👍 Good work! Keep reviewing.";
+
+}
+
+else {
+
+    message.textContent =
+        "📚 Keep studying and try again!";
+
+}
+
+</script>
+
+</body>
+
+</html>

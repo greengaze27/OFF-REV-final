@@ -3,8 +3,6 @@ const flashcards =
 
 let currentQuestion = 0;
 let score = 0;
-let answeredCorrectly = false;
-
 
 if (flashcards.length === 0) {
 
@@ -14,19 +12,20 @@ if (flashcards.length === 0) {
 } else {
 
     loadQuestion();
+
 }
+
 
 function loadQuestion() {
 
-    answeredCorrectly = false;
+    const current =
+        flashcards[currentQuestion];
 
-    const current = flashcards[currentQuestion];
 
-    
     document.getElementById("quizQuestion").textContent =
         current.question;
 
-    
+
     document.getElementById("quizCounter").textContent =
         "Question " +
         (currentQuestion + 1) +
@@ -34,15 +33,18 @@ function loadQuestion() {
         flashcards.length;
 
 
-    document.getElementById("feedback").textContent = "";
+    document.getElementById("feedback").textContent =
+        "";
 
-    
+
     document.getElementById("nextButton").style.display =
         "none";
 
-    
+
     createChoices();
+
 }
+
 
 function createChoices() {
 
@@ -50,6 +52,7 @@ function createChoices() {
         document.getElementById("choices");
 
     choicesContainer.innerHTML = "";
+
 
     const correctAnswer =
         flashcards[currentQuestion].answer;
@@ -65,16 +68,13 @@ function createChoices() {
     wrongAnswers =
         [...new Set(wrongAnswers)];
 
-    
     wrongAnswers.sort(
         () => Math.random() - 0.5
     );
 
-    
     wrongAnswers =
         wrongAnswers.slice(0, 3);
 
-    
     let choices = [
         correctAnswer,
         ...wrongAnswers
@@ -90,13 +90,16 @@ function createChoices() {
         const button =
             document.createElement("button");
 
+
         button.className =
             "quiz-choice";
 
+
         button.textContent =
-    String.fromCharCode(65 + index) +
-    ". " +
-    choice;
+            String.fromCharCode(65 + index) +
+            ". " +
+            choice;
+
 
         button.onclick = function() {
 
@@ -108,9 +111,13 @@ function createChoices() {
 
         };
 
+
         choicesContainer.appendChild(button);
+
     });
+
 }
+
 
 function checkAnswer(
     selected,
@@ -118,14 +125,9 @@ function checkAnswer(
     selectedButton
 ) {
 
-    if (answeredCorrectly) {
-        return;
-    }
-
-    answeredCorrectly = true;
-
     const feedback =
         document.getElementById("feedback");
+
 
     const buttons =
         document.querySelectorAll(".quiz-choice");
@@ -134,11 +136,17 @@ function checkAnswer(
 
         score++;
 
+
         feedback.textContent =
             "✅ Correct!";
 
+
         feedback.style.color =
             "green";
+
+
+        selectedButton.style.fontWeight =
+            "bold";
 
     }
 
@@ -146,6 +154,7 @@ function checkAnswer(
 
         feedback.textContent =
             "❌ Incorrect!";
+
 
         feedback.style.color =
             "red";
@@ -160,7 +169,9 @@ function checkAnswer(
 
     document.getElementById("nextButton")
         .style.display = "inline-block";
+
 }
+
 
 function nextQuestion() {
 
@@ -176,16 +187,21 @@ function nextQuestion() {
             score
         );
 
+
         localStorage.setItem(
             "quizTotal",
             flashcards.length
         );
 
+
         window.location.href =
             "result.html";
 
+
         return;
+
     }
 
     loadQuestion();
+
 }

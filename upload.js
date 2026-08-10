@@ -1,6 +1,6 @@
 function uploadFile() {
 
-    const fileInput = document.getElementById("fileInput");
+    const fileInput = document.getElementById("reviewerFile");
 
     if (!fileInput) {
         alert("File input not found.");

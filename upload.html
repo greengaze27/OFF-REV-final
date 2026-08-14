@@ -29,27 +29,28 @@
         <h2>Select a Reviewer File</h2>
 
         <p>
-            Choose any <strong>.txt</strong> file containing
-            questions and answers.
+            Choose your reviewer file.
+            <br>
+            <strong>Supported: TXT, CSV, DOCX, PDF</strong>
         </p>
 
         <input
-            type="file"
-            id="reviewerFile"
-            accept=".txt"
-        >
-
+    type="file"
+    id="reviewerFile"
+    accept=".txt,.csv,.docx,.pdf"
+>
+        
         <br><br>
 
         <button onclick="uploadFile()">
-            📚 Generate Reviewer
-        </button>
+    📚 Generate Reviewer
+</button>
 
         <br><br>
 
         <button onclick="location.href='index.html'">
-            ← Back
-        </button>
+    ← Back
+</button>
 
         <p id="message"></p>
 
@@ -58,136 +59,22 @@
 </div>
 
 
+<!-- DOCX READER -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+
 <script>
-
-function uploadFile() {
-
-    const fileInput = document.getElementById("reviewerFile");
-    const message = document.getElementById("message");
-
-    
-    if (fileInput.files.length === 0) {
-
-        message.textContent =
-            "⚠️ Please select a reviewer file first.";
-
-        return;
-    }
-
-    const file = fileInput.files[0];
-
-    
-    if (!file.name.toLowerCase().endsWith(".txt")) {
-
-        message.textContent =
-            "❌ Please select a .txt file.";
-
-        return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = function(event) {
-
-        const text = event.target.result;
-
-        
-        const lines = text.split(/\r?\n/);
-
-        const flashcards = [];
-
-        
-        lines.forEach(function(line) {
-
-            line = line.trim();
-
-        
-            if (line === "") {
-                return;
-            }
-
-    
-            const separator = line.indexOf("|");
-
-    
-            if (separator === -1) {
-                return;
-            }
-
-            
-            const question =
-                line.substring(0, separator).trim();
-
-        
-            const answer =
-                line.substring(separator + 1).trim();
-
-            if (question !== "" && answer !== "") {
-
-                flashcards.push({
-
-                    question: question,
-
-                    answer: answer
-
-                });
-
-            }
-
-        });
-
-
-        
-        if (flashcards.length === 0) {
-
-            message.textContent =
-                "❌ No valid flashcards found. " +
-                "Use: Question | Answer";
-
-            return;
-        }
-        
-        localStorage.removeItem("flashcards");
-
-        localStorage.setItem(
-            "flashcards",
-            JSON.stringify(flashcards)
-        );
-
-        localStorage.setItem(
-            "uploadedFileName",
-            file.name
-        );
-
-
-        message.textContent =
-            "✅ " +
-            flashcards.length +
-            " flashcards loaded successfully!";
-
-        setTimeout(function() {
-
-            window.location.href =
-                "flashcard.html";
-
-        }, 1000);
-
-    };
-
-
-    reader.onerror = function() {
-
-        message.textContent =
-            "❌ Unable to read the TXT file.";
-
-    };
-
-
-    reader.readAsText(file);
-
-}
-
+    console.log("Mammoth loaded:", typeof mammoth);
 </script>
+
+<!-- PDF READER -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<script>
+    console.log("PDF.js loaded:", typeof window.pdfjsLib);
+</script>
+
+<!-- OFF-REV -->
+<script src="upload.js?v=5"></script>
 
 </body>
 </html>
